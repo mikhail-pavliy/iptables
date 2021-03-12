@@ -21,7 +21,7 @@
 ```ruby
 [root@inetRouter vagrant]# iptables-save > /etc/sysconfig/iptables
 ```
-# 1. реализовать ```knocking port```, ```centralRouter``` может попасть на ssh ```inetrRouter``` через knock скрипт
+- реализовать ```knocking port```, ```centralRouter``` может попасть на ssh ```inetrRouter``` через knock скрипт
 Добавим на ```inetrRouter``` пользователя testuser
 ```ruby
 [root@inetRouter vagrant]# useradd testuser
@@ -198,7 +198,7 @@ curl 192.168.2.2:8080                                                           
 ```ruby
 [root@centralServer vagrant]# traceroute ya.ru
 traceroute to ya.ru (213.180.193.56), 30 hops max, 60 byte packets
- 1  gateway (192.168.0.10)  0.136 ms  0.087 ms  0.303 ms
+ 1  gateway (192.168.0.20)  0.136 ms  0.087 ms  0.303 ms
  2  10.10.10.1 (10.10.10.1 )  0.841 ms  0.944 ms  1.099 ms
  3  *
  4  *
