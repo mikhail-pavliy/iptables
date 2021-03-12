@@ -17,7 +17,7 @@
 [root@inetRouter vagrant]# iptables -P INPUT DROP
 [root@inetRouter vagrant]# iptables -P FORWARD DROP
 ```
-Для того, чтобы ```iptables-services``` при загрузке сервер считывал настройки с файла ```/etc/sysconfig/iptables``` используем утилиту ```iptables-save```
+Для того, чтобы ```iptables-services``` при загрузке сервера считывал настройки с файла ```/etc/sysconfig/iptables``` используем утилиту ```iptables-save```
 ```ruby
 [root@inetRouter vagrant]# iptables-save > /etc/sysconfig/iptables
 ```
@@ -107,7 +107,7 @@ COMMIT
 iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]
 
 ```
-Зайдем  на ```centralRouter``` проверим ```knocking port``` для этого установим утилиту ```nmap```
+Зайдем  на ```centralRouter``` проверим ```knocking port```, для этого установим утилиту ```nmap```
 ```ruby
 [root@centralRouter vagrant]# yum install -y nmap
 ```
