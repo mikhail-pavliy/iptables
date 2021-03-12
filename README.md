@@ -163,9 +163,50 @@ testuser@10.10.10.1's password:
 [root@centralRouter vagrant]#
 ```
 # Выполним остальные задания 
+Утановим Nginx на ```centralServer``
+```ruby
+[root@centralServer vagrant]# yum install -y epel-release
+[root@centralServer vagrant]# yum install -y nginx
+[root@centralServer vagrant]# systemctl enable --now nginx
+```
+Установим ```iptables-services``` на ```inetRouter2```
+```ruby
+[root@inetRouter2 vagrant]# yum install -y iptables-services
+[root@inetRouter2 vagrant]# systemctl enable --now iptables
+Created symlink from /etc/systemd/system/basic.target.wants/iptables.service to /usr/lib/systemd/system/iptables.service.
+```
+Нам необходимо реализовать проход на 80й порт сервера centralServer при подключении на порт 8080 сервера inetRouter2. Для этого в цепочку PREROUTING таблицы nat на сервере inetRouter2, добавим следующее правило 
+```ruby
+[root@inetRouter2 vagrant]# iptables -t nat -A PREROUTING -i eth2 -p tcp --dport 8080 -j DNAT --to 192.168.0.10:80
+[root@inetRouter2 vagrant]# iptables -F
+[root@inetRouter2 vagrant]# service iptables save
+iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]
+```
 
+```ruby
+curl 192.168.2.2:8080                                                                                                                                                                                        <html>
+  <head>
+      <title>centralServer</title>
+  </head>
+  <body>
+    <h1>everything works!</h1>
+  </body>
+</html>
+```
+дефолтом в инет является 10.10.10.1 (inetRouter):
 
-
+```ruby
+[root@centralServer vagrant]# traceroute ya.ru
+traceroute to ya.ru (213.180.193.56), 30 hops max, 60 byte packets
+ 1  gateway (192.168.0.10)  0.136 ms  0.087 ms  0.303 ms
+ 2  10.10.10.1 (10.10.10.1 )  0.841 ms  0.944 ms  1.099 ms
+ 3  *
+ 4  *
+ 5  n2cc.1-gigabit.kz (185.146.18.15)  4.194 ms ebgp2.1-gigabit.kz (185.146.18.12)  3.245 ms n2cc.1-gigabit.kz (185.146.18.15)  4.247 ms
+ 6  ebgp2.1-gigabit.kz (185.146.18.12)  3.294 ms 185.239.144.49 (185.239.144.49)  1.820 ms  2.111 ms
+ 7  80.249.137.77 (80.249.137.77)  2.202 ms 185.239.144.49 (185.239.144.49)  3.778 ms  3.738 ms
+ 8  82.200.128.153 (82.200.128.153)  4.776 ms  4.928 ms 80.249.137.77 (80.249.137.77)  3.588 ms
+```
 
 
 
